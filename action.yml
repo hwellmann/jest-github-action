@@ -20,6 +20,14 @@ inputs:
     description: "Only run tests on changed files (over base branch)"
     required: false
     default: "false"
+  name:
+    description: "Name of check displayed in the GitHub UI"
+    required: false
+    default: "jest-github-action"
+  silent:
+    description: "Suppress jest console output"
+    required: false
+    default: "false"  
 
 runs:
   using: "node20"

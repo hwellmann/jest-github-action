@@ -246,7 +246,7 @@ function getCheckPayload(results: FormattedTestResults, cwd: string, {out, err}:
   const payload: RestEndpointMethodTypes["checks"]["create"]["parameters"] = {
     ...context.repo,
     head_sha: getSha(),
-    name: ACTION_NAME,
+    name: core.getInput("name"),
     status: "completed",
     conclusion: results.success ? "success" : "failure",
     output: {
@@ -268,6 +268,8 @@ function getJestCommand(resultsFile: string) {
   let cmd = core.getInput("test-command", { required: false })
   const jestOptions = `--testLocationInResults --json ${
     shouldCommentCoverage() ? "--coverage" : ""
+  } ${
+    core.getBooleanInput("silent") ? "--silent" : ""
   } ${
     shouldRunOnlyChangedFiles() && context.payload.pull_request?.base.ref
       ? "--changedSince=" + context.payload.pull_request?.base.ref
